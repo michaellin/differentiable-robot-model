@@ -120,7 +120,8 @@ class DifferentiableRobotModel(torch.nn.Module):
 
             # Joint properties
             body.joint_idx = None
-            if rigid_body_params["joint_type"] != "fixed":
+            #if rigid_body_params["joint_type"] != "fixed":
+            if rigid_body_params["joint_type"] == "revolute":
                 body.joint_idx = self._n_dofs
                 self._n_dofs += 1
                 self._controlled_joints.append(i)
@@ -325,7 +326,7 @@ class DifferentiableRobotModel(torch.nn.Module):
         assert q.ndim == 2
         assert qd.ndim == 2
         assert qdd_des.ndim == 2
-        assert q.shape[1] == self._n_dofs
+        assert q.shape[1] == self._n_dofs, f"n_dofs is {self._n_dofs}"
         assert qd.shape[1] == self._n_dofs
         assert qdd_des.shape[1] == self._n_dofs
 
